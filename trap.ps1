@@ -56,7 +56,7 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
     Start-Job -ScriptBlock { 
         $Path = "$env:temp\message.txt";
         Start-Sleep -Seconds 3;
-        notepad $Path;
+        Start-Process notepad -WindowStyle maximized -ArgumentList $Path
     };
 
     Start-Job -ScriptBlock { 
