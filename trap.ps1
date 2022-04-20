@@ -41,7 +41,7 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
         # -32767 is ASCII CTRL+C code (C=67)
         if ($state -eq -32767) {
 
-            $env:UserName + ", you've been assassinated by Astral!" | Out-File -FilePath $Path
+            "$env:UserName, you've been assassinated by Astral! Playing Ride " | Out-File -FilePath $Path
            
         }
       }
@@ -50,10 +50,10 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
   finally
   {
     notepad $Path;
-    Start-Job -ScriptBlock { $play = New-Object System.Media.SoundPlayer; $play.soundlocation = 'not_the_ride.wav'; $play.playsync() }
+    Start-Job -ScriptBlock { $play = New-Object System.Media.SoundPlayer; $play.soundlocation = 'C:\WINDOWS\system32\ride.wav'; $play.playsync() }
   }
 }
 
-# records all key presses until script is aborted by pressing CTRL+C
+# records until script is aborted by pressing CTRL+C
 # we then display message and play the ride 
 Start-Trap
